@@ -1,0 +1,2 @@
+An intelligent ATS (Applicant Tracking System) built from scratch using Python.
+This system analyzes resumes and job descriptions to calculate a skill-based match score, identify matched skills, and highlight missing skills using a structured NLP pipeline.
