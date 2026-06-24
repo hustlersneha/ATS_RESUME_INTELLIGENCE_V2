@@ -1,13 +1,14 @@
-from core.preprocess import preprocess
-from core.matcher import get_match_score
+from core.semantic_matcher import semantic_score
 
-resume = "Python SQL API experience"
-job = "Golang Developer required with backend API and database knowledge"
+resume = """
+Python developer with backend API experience.
+Worked with SQL and Django.
+"""
 
-resume_tokens = preprocess(resume)
+job = """
+Software engineer required with backend development experience.
+"""
 
-score, matched, missing = get_match_score(resume_tokens, job)
+score = semantic_score(resume, job)
 
-print("Score:", score, "%")
-print("Matched:", matched)
-print("Missing:", missing)
+print("Semantic Match Score:", score, "%") 
