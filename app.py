@@ -1,14 +1,18 @@
-from core.semantic_matcher import semantic_score
+from core.hybrid_matcher import hybrid_score
 
 resume = """
-Python developer with backend API experience.
-Worked with SQL and Django.
+Python developer with SQL, API and backend experience.
 """
 
 job = """
-Software engineer required with backend development experience.
+We are hiring a Golang Developer.
 """
 
-score = semantic_score(resume, job)
+result = hybrid_score(resume, job)
 
-print("Semantic Match Score:", score, "%") 
+print("\n----- ATS REPORT -----")
+print("Skill Score:", result["skill_score"], "%")
+print("Semantic Score:", result["semantic_score"], "%")
+print("Final Score:", result["final_score"], "%")
+print("Matched Skills:", result["matched"])
+print("Missing Skills:", result["missing"])
