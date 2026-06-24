@@ -1,0 +1,7 @@
+# ATS Resume Intelligence System V2
+# No external dependencies required for core logic
+
+python>=3.8
+sentence-transformers
+scikit-learn
+numpy
