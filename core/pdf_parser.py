@@ -1,18 +1,17 @@
-from pypdf import PdfReader
+import fitz  # PyMuPDF
 
-def extract_text_from_pdf(pdf_path):
+
+def extract_text_from_pdf(uploaded_file):
     try:
-        reader = PdfReader(pdf_path)
+        pdf_bytes = uploaded_file.read()
+        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
 
         text = ""
 
-        for page in reader.pages:
-            page_text = page.extract_text()
+        for page in doc:
+            text += page.get_text() + "\n"
 
-            if page_text:
-                text += page_text + "\n"
-
-        return text
+        return text.strip()
 
     except Exception as e:
-        return f"Error: {e}"
+        return f"PDF parsing error: {str(e)}"
