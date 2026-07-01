@@ -8,7 +8,7 @@ st.set_page_config(
 )
 
 st.title("ATS Resume Intelligence")
-st.write("AI-powered resume analysis using semantic similarity")
+st.write("AI-powered resume analysis using semantic similarity and Gemini AI")
 
 uploaded_resume = st.file_uploader(
     "Upload Resume PDF",
@@ -38,7 +38,7 @@ if st.button("Analyze Resume"):
         st.warning("Please upload/paste resume and enter job description.")
 
     else:
-        with st.spinner("Analyzing resume..."):
+        with st.spinner("AI is analyzing your resume..."):
             result = ai_match(resume_text, job_description)
 
         st.markdown("---")
@@ -48,6 +48,34 @@ if st.button("Analyze Resume"):
             "Semantic Matching Score",
             f"{result['semantic_score']}%"
         )
+
+        st.markdown("---")
+
+        st.subheader("Matched Skills")
+        if result["matched_skills"]:
+            for skill in result["matched_skills"]:
+                st.success(skill)
+        else:
+            st.info("No matched skills found.")
+
+        st.subheader("Missing Skills")
+        if result["missing_skills"]:
+            for skill in result["missing_skills"]:
+                st.error(skill)
+        else:
+            st.success("No major missing skills found.")
+
+        st.subheader("Strengths")
+        for strength in result["strengths"]:
+            st.write("✅", strength)
+
+        st.subheader("Weaknesses")
+        for weakness in result["weaknesses"]:
+            st.write("⚠️", weakness)
+
+        st.subheader("Suggestions")
+        for suggestion in result["suggestions"]:
+            st.write("💡", suggestion)
 
         with st.expander("Extracted Resume Text"):
             st.write(resume_text)
