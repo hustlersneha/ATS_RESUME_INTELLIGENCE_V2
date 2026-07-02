@@ -5,3 +5,4 @@ numpy
 pymupdf
 python-dotenv
 google-generativeai
+reportlab

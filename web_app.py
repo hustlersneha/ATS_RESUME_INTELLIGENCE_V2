@@ -1,6 +1,7 @@
 import streamlit as st
 from core.ai_matcher import ai_match
 from core.pdf_parser import extract_text_from_pdf
+from core.report_generator import generate_pdf_report
 
 st.set_page_config(
     page_title="ATS Resume Intelligence",
@@ -123,7 +124,11 @@ def show_list(items, box_class):
         st.info("No data available.")
 
 
-st.markdown("<div class='main-title'>ATS Resume Intelligence</div>", unsafe_allow_html=True)
+st.markdown(
+    "<div class='main-title'>ATS Resume Intelligence</div>",
+    unsafe_allow_html=True
+)
+
 st.markdown(
     "<div class='sub-title'>AI-powered resume analysis using Semantic Similarity + Gemini AI</div>",
     unsafe_allow_html=True
@@ -145,17 +150,16 @@ with left_col:
     )
 
 with right_col:
-    st.markdown("###  Job Description")
+    st.markdown("### 💼 Job Description")
 
     job_description = st.text_area(
         "Paste Job Description",
         height=345
     )
 
-analyze_btn = st.button("Analyze Resume", use_container_width=True)
+analyze_btn = st.button(" Analyze Resume", use_container_width=True)
 
 if analyze_btn:
-
     resume_text = ""
 
     if uploaded_resume is not None:
@@ -190,7 +194,7 @@ if analyze_btn:
             st.progress(min(int(score), 100))
 
         with summary_col:
-            st.markdown("###  Resume Analysis Summary")
+            st.markdown("### Resume Analysis Summary")
 
             if score >= 80:
                 st.success("Strong semantic match for this job description.")
@@ -222,7 +226,7 @@ if analyze_btn:
         col3, col4 = st.columns(2)
 
         with col3:
-            st.subheader(" Strengths")
+            st.subheader("Strengths")
             show_list(result.get("strengths", []), "insight-box")
 
         with col4:
@@ -233,6 +237,18 @@ if analyze_btn:
 
         st.subheader(" Resume Improvement Suggestions")
         show_list(result.get("suggestions", []), "suggestion-box")
+
+        st.markdown("---")
+
+        pdf_report = generate_pdf_report(result)
+
+        st.download_button(
+            label=" Download ATS Report",
+            data=pdf_report,
+            file_name="ats_resume_report.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
 
         with st.expander(" View Extracted Resume Text"):
             st.write(resume_text)
