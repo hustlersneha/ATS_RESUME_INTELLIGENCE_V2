@@ -150,7 +150,7 @@ with left_col:
     )
 
 with right_col:
-    st.markdown("### 💼 Job Description")
+    st.markdown("###  Job Description")
 
     job_description = st.text_area(
         "Paste Job Description",
